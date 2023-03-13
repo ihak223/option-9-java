@@ -4,21 +4,26 @@
 
 package frc.robot.commands;
 
+import java.lang.Math;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-//import edu.wpi.first.networktables.NetworkTableEntry;
-//import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.Joystick;
+//- import edu.wpi.first.networktables.NetworkTableEntry;
+//- import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import frc.robot.DriveMath;
+
 /** An example command that uses an example subsystem. */
 public class DriveTrainWithJoystick extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrainSubsystem driveTrainSubsystem;
+  private final Joystick joystick = RobotContainer.joystick;
 
 
   /**
@@ -27,13 +32,13 @@ public class DriveTrainWithJoystick extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   ShuffleboardTab driver;
-  //ADIS16470_IMU gyro;
-  //NetworkTableEntry kPEntry;
+  //- ADIS16470_IMU gyro;
+  //- NetworkTableEntry kPEntry;
 
   public DriveTrainWithJoystick(DriveTrainSubsystem driveTrainSubsystem) {
     this.driveTrainSubsystem = driveTrainSubsystem;
     //gyro
-    //this.gyro = gyro2;
+    //- this.gyro = gyro2;
     
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrainSubsystem);
@@ -48,8 +53,8 @@ public class DriveTrainWithJoystick extends CommandBase {
     driver.add(camera).withSize(6,6);
     
     //Gyro in shuffleboard
-    //driver.add(gyro).withSize(2, 2);
-    //driver.addNumber("Gyro Angle", gyro::getAngle).withSize(3,3);
+    //- driver.add(gyro).withSize(2, 2);
+    //- driver.addNumber("Gyro Angle", gyro::getAngle).withSize(3,3);
   }
 
   
@@ -60,13 +65,16 @@ public class DriveTrainWithJoystick extends CommandBase {
   public void execute() {
     //for broken joystick, gety, getx * -1
     //go when the joystick goes. all the math is for the sensitivity toggle (the slider thing on joystick) there's probably a more efficient way to do the same math but i do not care.
-    driveTrainSubsystem.m_robotDrive.arcadeDrive(RobotContainer.joystick.getY() * ((((RobotContainer.joystick.getRawAxis(3) * -1) + 1) * 0.25) + .5), RobotContainer.joystick.getX() * -0.6);
+    driveTrainSubsystem.m_robotDrive.arcadeDrive(
+      DriveMath.calculateSpeed(joystick), 
+      Math.pow(joystick.getX(), 2) * -0.6
+    );
     //sensitivity diagnostics lol
     //for reference of future coders, this is a very nice way to display a number without looking at it on the riolog awkwardly.
-    SmartDashboard.putNumber("Joystick Y Axis Input", RobotContainer.joystick.getY());
-    SmartDashboard.putNumber("Joystick X Axis Input", RobotContainer.joystick.getX());
-    SmartDashboard.putNumber("Joystick Sensitivity Input", RobotContainer.joystick.getRawAxis(3));
-    SmartDashboard.putNumber("Current Speed Output", RobotContainer.joystick.getY() * ((((RobotContainer.joystick.getRawAxis(3) * -1) + 1) * 0.25) + .5));
+    SmartDashboard.putNumber("Joystick Y Axis Input", joystick.getY());
+    SmartDashboard.putNumber("Joystick X Axis Input", joystick.getX());
+    SmartDashboard.putNumber("Joystick Sensitivity Input", joystick.getRawAxis(3));
+    SmartDashboard.putNumber("Current Speed Output", DriveMath.calculateSpeed(joystick));
     
     //gyro code for driver orientation 
    /* double error = gyro.getAngle();
