@@ -111,9 +111,16 @@ public class DriveTrainWithJoystick extends CommandBase {
    // if (RobotContainer.joystick.getRawButton(3)) driveTrainSubsystem.armBrake.set(-0.5);
 
 
+    if ((RobotContainer.joystick.getRawButton(1) || RobotContainer.joystick.getRawButton(2)) && !(driveTrainSubsystem.brakeOpen)) {
+      driveTrainSubsystem.armBrake.set(-1);
+      driveTrainSubsystem.brakeOpen = true;
+    } else { driveTrainSubsystem.armBrake.set(5); driveTrainSubsystem.brakeOpen = false;}
+    
     //raises arm at a really slow speed (o.1)
     if (RobotContainer.joystick.getRawButton(1)){
+      
       driveTrainSubsystem.armMover.set(-1.0);
+      
     }
     //lowers arm at a really slow speed
     if (RobotContainer.joystick.getRawButton(2)){
@@ -122,11 +129,13 @@ public class DriveTrainWithJoystick extends CommandBase {
 
     //opens arm claw at a really slow speed (o.2)
     if (RobotContainer.joystick.getRawButton(6)){
-      driveTrainSubsystem.armOpener.set(0.5);
+      System.out.println("opening...");
+      driveTrainSubsystem.armOpener.set(1);
     }
     //closes arm claw at a really slow speed 
     if (RobotContainer.joystick.getRawButton(4)){
-      driveTrainSubsystem.armOpener.set(-0.65);
+      System.out.println("closing...");
+      driveTrainSubsystem.armOpener.set(-1);
     }
 
     //if nots
@@ -144,8 +153,18 @@ public class DriveTrainWithJoystick extends CommandBase {
     if (RobotContainer.joystick.getRawButton(11)){
       driveTrainSubsystem.armOpener.stopMotor();
     }
-    
-
+    if (RobotContainer.joystick.getRawButton(8))
+    {
+      driveTrainSubsystem.armBrake.set(1);
+    }
+    if (RobotContainer.joystick.getRawButton(9))
+    {
+      driveTrainSubsystem.armBrake.set(-1);
+    }
+    if (RobotContainer.joystick.getRawButton(10))
+    {
+      driveTrainSubsystem.armBrake.set(0);
+    }
     
   }
 
