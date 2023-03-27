@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
-//import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 //import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -17,7 +17,7 @@ public class DriveTrainAutonomous extends CommandBase {
   private final DriveTrainSubsystem driveTrainSubsystem;
   private final Timer m_timer;
   //private final DigitalInput digitalInput;
-  //private final ADIS16470_IMU gyro;
+  private ADIS16470_IMU gyro = RobotContainer.gyro;
 
   /**
    * Creates a new ExampleCommand.
@@ -25,11 +25,11 @@ public class DriveTrainAutonomous extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
 
-  public DriveTrainAutonomous(DriveTrainSubsystem driveTrainSubsystem, Timer m_timer) {
+  public DriveTrainAutonomous(DriveTrainSubsystem driveTrainSubsystem, Timer m_timer, ADIS16470_IMU gyro) {
     this.driveTrainSubsystem = driveTrainSubsystem;
     //this.digitalInput = dInput;
     this.m_timer = m_timer;
-   // this.gyro = gyro2;
+    this.gyro = gyro;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrainSubsystem);
   }
@@ -54,24 +54,35 @@ public class DriveTrainAutonomous extends CommandBase {
     //reverse and go away from the grid
     while (m_timer.get() > 3.5 && m_timer.get() < 4.65){
       driveTrainSubsystem.m_robotDrive.arcadeDrive(-0.8, 0.0);
+    }
+    //turn right towards drivers station
+    while (m_timer.get() > 4.65 && m_timer.get() < 5.0){
+      driveTrainSubsystem.m_robotDrive.arcadeDrive(0.5, 0.2);
+    }
+    //drive straight parallel to the charge station
+    while (m_timer.get() > 5.0 && m_timer.get() < 5.5){
+      driveTrainSubsystem.m_robotDrive.arcadeDrive(0.7, 0.0);
+    }
+    //turn left toward charge station
+    while (m_timer.get() > 5.5 && m_timer.get() < 5.75){
+      driveTrainSubsystem.m_robotDrive.arcadeDrive(0.5, -0.2);
+    }
+    //drive onto charge station
+    while (m_timer.get() > 5.75 && m_timer.get() < 6.3){
+      driveTrainSubsystem.m_robotDrive.arcadeDrive(0.7, 0.0);
+    }
 
-    //write code to drive onto charge station
-    //theoritically this should cause it move back and forth to balance on the charge station
-    /*if (gyro.getAngle() > 0.0){
+    //theoritically this should cause it move back and forth to balance on the charge station, ultimately stopping when autonomous period ends
+    if (gyro.getAngle() > 0.0){
       driveTrainSubsystem.m_robotDrive.arcadeDrive(0.2,0.0);
     }
     if (gyro.getAngle() < 0.0){
       driveTrainSubsystem.m_robotDrive.arcadeDrive(-0.2,0.0);
-    }*/
+    }
     
-    }
+    
   
-
-
-    /*if (m_timer.get() > 4.0 && m_timer.get() < 5.0){
-      driveTrainSubsystem.m_robotDrive.arcadeDrive(0.5, 0.0);
-    }
-    */
+    
 
     //System.out.println("get : " + digitalInput.get());
 

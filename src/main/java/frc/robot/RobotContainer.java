@@ -8,14 +8,14 @@ package frc.robot;
 
 
 //import edu.wpi.first.networktables.NetworkTableEntry;
-//import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 //import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+//import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+//import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.commands.DriveTrainWithJoystick;
 import frc.robot.commands.DriveTrainAutonomous;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -33,14 +33,14 @@ public class RobotContainer {
   public static Joystick joystick = new Joystick(0);
   public static Timer m_timer = new Timer();
   //public static DigitalInput digitalInput = new DigitalInput(9);
-  //public static ADIS16470_IMU gyro = new ADIS16470_IMU();
-  public static ShuffleboardTab tab = Shuffleboard.getTab("robot things");
+  public static ADIS16470_IMU gyro = new ADIS16470_IMU();
+  //public static ShuffleboardTab tab = Shuffleboard.getTab("robot things");
   //public static NetworkTableEntry kPEntry = tab.add("kp", 0).getEntry();
   
   
 
-  private final DriveTrainWithJoystick driveTrainWithJoystick = new DriveTrainWithJoystick(driveTrainSubsystem);
-  private final DriveTrainAutonomous driveTrainAutonomous = new DriveTrainAutonomous(driveTrainSubsystem, m_timer);
+  private final DriveTrainWithJoystick driveTrainWithJoystick = new DriveTrainWithJoystick(driveTrainSubsystem, gyro);
+  private final DriveTrainAutonomous driveTrainAutonomous = new DriveTrainAutonomous(driveTrainSubsystem, m_timer, gyro);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

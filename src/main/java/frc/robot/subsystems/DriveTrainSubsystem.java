@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
@@ -19,8 +20,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private final PWMSparkMax m_rightDriveTwo = new PWMSparkMax(Constants.DriveTrainConstants.rightDriveTwoId);
   private final MotorControllerGroup m_rightDriveGroup = new MotorControllerGroup(m_rightDrive, m_rightDriveTwo);
   public final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftDriveGroup, m_rightDriveGroup);
+  //this stuff should probably be in an arm subsystem but who has time for that
   public final PWMSparkMax armMover = new PWMSparkMax(4);
   public final PWMSparkMax armOpener = new PWMSparkMax(5);
+ // public final PWMSparkMax armBrake = new PWMSparkMax(6); 
 
 
 

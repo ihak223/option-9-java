@@ -19,4 +19,11 @@ public final class Constants {
         public static final int rightDriveId = 2;
         public static final int rightDriveTwoId = 3;
     }
+    public static final class JoystickConstants{
+        public static final int sliderAxis = 3;      // Raw Axis to change sensitivity
+        public static final int raiseArmButton = 1;  // Raw Button to move arm up
+        public static final int lowerArmButton = 2;  // Raw Button to move arm down
+        public static final int openClawButton = 6;  // Raw Button to open claw
+        public static final int closeClawButton = 4; // Raw Button to clone claw
+    }
 }
