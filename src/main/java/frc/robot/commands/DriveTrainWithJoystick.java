@@ -153,18 +153,7 @@ public class DriveTrainWithJoystick extends CommandBase {
     if (RobotContainer.joystick.getRawButton(11)){
       driveTrainSubsystem.armOpener.stopMotor();
     }
-    if (RobotContainer.joystick.getRawButton(8))
-    {
-      driveTrainSubsystem.armBrake.set(1);
-    }
-    if (RobotContainer.joystick.getRawButton(9))
-    {
-      driveTrainSubsystem.armBrake.set(-1);
-    }
-    if (RobotContainer.joystick.getRawButton(10))
-    {
-      driveTrainSubsystem.armBrake.set(0);
-    }
+   
     
   }
 
