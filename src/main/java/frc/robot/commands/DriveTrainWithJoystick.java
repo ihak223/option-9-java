@@ -71,7 +71,7 @@ public class DriveTrainWithJoystick extends CommandBase {
     //go when the joystick goes. all the math is for the sensitivity toggle (the slider thing on joystick) there's probably a more efficient way to do the same math but i do not care.
     driveTrainSubsystem.m_robotDrive.arcadeDrive(
       DriveMath.calculateSpeed(joystick), 
-      Math.pow(joystick.getX(), 2) * -0.6
+      DriveMath.calculateTurnSpeed(joystick)
     );
     //sensitivity diagnostics lol
     //for reference of future coders, this is a very nice way to display a number without looking at it on the riolog awkwardly.
@@ -81,16 +81,17 @@ public class DriveTrainWithJoystick extends CommandBase {
     SmartDashboard.putNumber("Current Speed Output", DriveMath.calculateSpeed(joystick));
 
     //field orienated driving with gyro
-   // double foward = RobotContainer.joystick.getY()*-1;
-  //  double x_axis = RobotContainer.joystick.getX();
+    /*double foward = RobotContainer.joystick.getY()*-1;
+    double x_axis = RobotContainer.joystick.getX();
 
-   // double pi = 3.1415926;
+    double pi = 3.1415926;
 
-    //double gyro_degrees = gyro.getAngle();
-   // double gyro_radians = gyro_degrees * (pi/180);
-   // double temp = foward * Math.cos(gyro_radians) + x_axis * Math.sin(gyro_radians);
-   // x_axis = -foward * Math.sin(gyro_radians) + x_axis * Math.cos(gyro_radians);
-  //  foward = temp;
+    double gyro_degrees = gyro.getAngle();
+    double gyro_radians = gyro_degrees * (pi/180);
+    double temp = foward * Math.cos(gyro_radians) + x_axis * Math.sin(gyro_radians);
+    x_axis = -foward * Math.sin(gyro_radians) + x_axis * Math.cos(gyro_radians);
+    foward = temp;
+    */
     
     
     //gyro code for driver orientation 
