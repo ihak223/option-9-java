@@ -69,10 +69,7 @@ public class DriveTrainWithJoystick extends CommandBase {
   public void execute() {
     //for broken joystick, gety, getx * -1
     //go when the joystick goes. all the math is for the sensitivity toggle (the slider thing on joystick) there's probably a more efficient way to do the same math but i do not care.
-    driveTrainSubsystem.m_robotDrive.arcadeDrive(
-      DriveMath.calculateSpeed(joystick), 
-      DriveMath.calculateTurnSpeed(joystick)
-    );
+    
     //sensitivity diagnostics lol
     //for reference of future coders, this is a very nice way to display a number without looking at it on the riolog awkwardly.
     SmartDashboard.putNumber("Joystick Y Axis Input", joystick.getY());
@@ -154,7 +151,27 @@ public class DriveTrainWithJoystick extends CommandBase {
     if (RobotContainer.joystick.getRawButton(11)){
       driveTrainSubsystem.armOpener.stopMotor();
     }
-   
+    if (RobotContainer.joystick.getRawButton(5) && reversing){
+      targetRotation = gyro.getAngle() + 180;
+      targetRotation %= 360; // makes angle within bounds of 360
+      reversing = true;
+    }
+
+    if (reversing){
+      if (gyro.getAngle == targetRotation){
+        reversing = false;
+      }
+      else
+      {
+        driveTrainSubsystem.m_robotDrive.arcadeDrive(0, 0.5);
+      }
+      return; // skips normal drive input
+    }
+    
+    driveTrainSubsystem.m_robotDrive.arcadeDrive(
+      DriveMath.calculateSpeed(joystick), 
+      DriveMath.calculateTurnSpeed(joystick)
+    );
     
   }
 
